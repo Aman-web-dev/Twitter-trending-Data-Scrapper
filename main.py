@@ -131,4 +131,4 @@ def run_script():
 
 
 if __name__ == "__main__":
-    app.run(debug=True,port=port or 4000)
+    app.run(debug=True,port=port or 4000,host="0.0.0.0")
