@@ -8,6 +8,7 @@ from pymongo import MongoClient
 from datetime import datetime
 from selenium.webdriver.support.ui import WebDriverWait
 import uuid
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 import requests
 import os
@@ -22,6 +23,10 @@ client = MongoClient(mongo_uri)
 db = client["twitter_trends"]
 collection = db["trends"]
 
+# Set up Chrome options
+chrome_options = Options()
+chrome_options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"  # Replace with your Chrome binary path
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -32,7 +37,7 @@ def run_script():
     try:
         # Selenium setup
         service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service)
+        driver = webdriver.Chrome(service=service, options=chrome_options)
         
         # Log in to Twitter
         driver.get("https://x.com/login")
