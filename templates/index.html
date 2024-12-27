@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Selenium Script</title>
+    <script>
+        async function runScript(event) {
+            event.preventDefault();
+            const button = document.getElementById('run-btn');
+            console.log(button)
+            button.disabled = true; // Disable the button to prevent multiple clicks
+            button.innerText = "Running...";
+
+            try {
+                const response = await fetch('/run-script', {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                console.log("result: ", result)
+                if (result.error) {
+                    alert("Error: " + result.error);
+                } else {
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = `
+                        <h3>These are the most happening topics as on ${result.timestamp}:</h3>
+                        <ul>
+                            <li>${result.trends[0]}</li>
+                            <li>${result.trends[1]}</li>
+                            <li>${result.trends[2]}</li>
+                            <li>${result.trends[3]}</li>
+                            <li>${result.trends[4]}</li>
+                        </ul>
+                        <p>The IP address used for this query was ${result.ip_address}.</p>
+                    `;
+                }
+            } catch (error) {
+                alert("Error: " + error.message);
+            } finally {
+                button.disabled = false; // Re-enable the button
+                button.innerText = "Click Here to Run the Script";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Run Selenium Script</h1>
+    <button id="run-btn" onclick="runScript(event)">Click Here to Run the Script</button>
+    <div id="result"></div>
+</body>
+
+</html>
