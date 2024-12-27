@@ -15,6 +15,8 @@ import os
 
 app = Flask(__name__)
 
+port = int(os.getenv("PORT") or 5000)
+
 mongo_uri = os.getenv("MONGO_URI")
 # MongoDB setup
 client = MongoClient(mongo_uri)
@@ -37,13 +39,16 @@ def run_script():
         username = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "input[name='text']"))
         )
-        username.send_keys("rizznikant")  # Replace with your Twitter username/email
+        Xusername = os.getenv("X_USERNAME")
+        username.send_keys(Xusername)  # Replace with your Twitter username/email
         username.send_keys(Keys.RETURN)
+        
+        Xpassword= os.getenv("X_PASSWORD")
 
         password = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.NAME, "password"))
         )
-        password.send_keys("rajnikisajni892@")  # Replace with your Twitter password
+        password.send_keys(Xpassword)  # Replace with your Twitter password
         password.send_keys(Keys.RETURN)
 
         # Wait for successful login
@@ -126,4 +131,4 @@ def run_script():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=port )
