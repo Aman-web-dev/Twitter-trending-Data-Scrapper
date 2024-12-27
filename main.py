@@ -28,6 +28,7 @@ def index():
 
 @app.route('/run-script', methods=['POST'])
 def run_script():
+    driver=None
     try:
         # Selenium setup
         service = Service(ChromeDriverManager().install())
@@ -126,7 +127,8 @@ def run_script():
         return jsonify({"error": str(e)})
 
     finally:
-        driver.quit()
+        if driver:
+            driver.quit()
 
 
 if __name__ == "__main__":
