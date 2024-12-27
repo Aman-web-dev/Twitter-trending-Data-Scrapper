@@ -11,11 +11,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 import uuid
 from selenium.webdriver.support import expected_conditions as EC
 import requests
+import os
 
 app = Flask(__name__)
 
+mongo_uri = os.getenv("MONGO_URI")
 # MongoDB setup
-client = MongoClient("mongodb+srv://rajnikantdevep:dkDFYlI9Co1AhCBf@cluster0.fb21j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+client = MongoClient(mongo_uri)
 db = client["twitter_trends"]
 collection = db["trends"]
 
@@ -85,8 +87,6 @@ def run_script():
             except Exception as e:
                 print(f"Error while loading trends: {e}")
                 # Capture and log page source for debugging
-                with open("page_source.html", "w", encoding="utf-8") as file:
-                    file.write(driver.page_source)
                 break
 
         # Fill missing trends with N/A if fewer than 5 are collected
