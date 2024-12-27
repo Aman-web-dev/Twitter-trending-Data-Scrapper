@@ -15,7 +15,7 @@ import os
 
 app = Flask(__name__)
 
-port = int(os.getenv("PORT") or 5000)
+port = os.getenv("PORT") 
 
 mongo_uri = os.getenv("MONGO_URI")
 # MongoDB setup
@@ -131,4 +131,4 @@ def run_script():
 
 
 if __name__ == "__main__":
-    app.run(debug=True,port=port )
+    app.run(debug=True,port=port or 4000)
