@@ -25,6 +25,7 @@ collection = db["trends"]
 
 # Set up Chrome options
 chrome_options = Options()
+chrome_options.headless = True  # Run Chrome without a UI
 chrome_options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"  # Replace with your Chrome binary path
 
 @app.route('/')
